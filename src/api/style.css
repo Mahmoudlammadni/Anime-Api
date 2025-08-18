@@ -1,0 +1,344 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.nav h3 {
+  font-size: 24px;
+  font-weight: 900;
+  color: orangered;
+}
+
+.nav-center {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-center a {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.nav-center a:hover {
+  color: orangered;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.search-bar {
+  padding: 5px 10px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  background-color: #333;
+  color: white;
+}
+
+.search-bar::placeholder {
+  color: #aaa;
+}
+
+.nav-icon {
+  font-size: 20px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.nav-icon:hover {
+  color: orangered;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  background-color: gray;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+}
+
+
+
+
+
+
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.anime-app {
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: orangered;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #555;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  color: white;
+  background-color: #333;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.filters label {
+  color: #bbb;
+}
+
+select {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #555;
+  color: white;
+  background-color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.popular{
+  position: absolute;
+  margin-left: 390px;
+  margin-top: -0.5px;
+  background-color:aqua;
+  border-radius: 10px;
+  font-size: larger;
+  color: firebrick;
+  padding: 8px 30px;
+}
+.ar{
+  position: absolute;
+  margin-left: 1000px;
+  margin-top: -0.5px;
+  background-color:aqua;
+  border-radius: 10px;
+  font-size: larger;
+  color: firebrick;
+  padding: 8px 30px;
+}
+.up{
+  position: absolute;
+  margin-left:1150px;
+  margin-top: -0.5px;
+  background-color:aqua;
+  border-radius: 10px;
+  font-size: larger;
+  color: firebrick;
+  padding: 8px 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.anime-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.anime-card {
+  background-color: #222;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.anime-card:hover {
+  transform: scale(1.05);
+}
+
+.anime-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.anime-details {
+  padding: 10px;
+}
+
+.anime-title {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: orangered;
+}
+
+.anime-genres {
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.an-gr {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+  gap: 20px;
+  padding: 20px;
+
+}
+
+.anca {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.anca:hover {
+  transform: scale(1.05);
+}
+
+.aim {
+  width: 100%;
+  height: 350px; 
+  display: block;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.adet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  text-align: center;
+  padding: 10px;
+}
+
+.anca:hover .adet {
+  opacity: 1;
+}
+.pp:hover .btn {
+  display: block !important;
+}
+
+.btn {
+  background-color: brown;
+  color: aqua;
+  font-size: larger;
+  border-radius: 20px 5px;
+}
+.btn:hover{
+  background-color: green;
+}
+.adet p {
+  margin: 5px 0;
+}
+
+button {
+  margin-top: 10px;
+}
+.at{
+  color: red;
+}  
+.btn2{
+background-color: transparent;
+color: orangered;
+font-size: large;
+border-top: 0;
+border-right: 0;
+border-left: 0;
+}
+.btn2:hover{
+color: blue;
+border-bottom: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
