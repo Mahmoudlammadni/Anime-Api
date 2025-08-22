@@ -1,0 +1,104 @@
+
+.agrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.anime-details-container {
+  max-width: 900px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #f9f9f9;
+  margin: 10px;
+  text-align: center;
+}
+
+.anime-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.anime-poster {
+  width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+.anime-info {
+  width: 100%;
+}
+
+.anime-info h1 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.anime-info p {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #555;
+}
+
+.anime-info strong {
+  color: #000;
+}
+
+.anime-info p:nth-child(6) {
+  color: #0066cc;
+  font-weight: bold;
+}
+
+.anime-synopsis {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.anime-synopsis h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.anime-synopsis p {
+  line-height: 1.6;
+  font-size: 1rem;
+  color: #555;
+}
+
+.anime-trailer {
+  margin-top: 30px;
+}
+
+.anime-trailer h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.anime-trailer iframe {
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* For responsive design */
+@media (max-width: 768px) {
+  .anime-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .anime-poster {
+    width: 100%;
+    max-width: 300px;
+  }
+}
