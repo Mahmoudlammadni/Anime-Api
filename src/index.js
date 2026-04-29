@@ -8,7 +8,7 @@ import Anime from "./api/app"
 
 import { legacy_createStore } from 'redux';
 import { Provider } from 'react-redux';
-import reduu from './api1/redux'
+import reduu from './api/redux'
 
 const store =legacy_createStore(reduu)
 const root = ReactDOM.createRoot(document.getElementById('root'));
