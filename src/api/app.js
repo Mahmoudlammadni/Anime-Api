@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { FiChevronUp } from "react-icons/fi";
-import Home_an from "./all";
-import Ani_info from "./ani_infor";
+import HomeAn from "./all";
+import AniInfo from "./ani_infor";
 import Nav from "./nav";
 import Mylist from "./mylist";
-import Genre_an from "./genre";
+import GenreAn from "./genre";
 import Airing from "./airing";
 import Upcoming from "./upcoming";
 import Popular2 from "./popular2";
@@ -74,13 +74,13 @@ export default function Anime() {
       <Nav />
       <div className="page-wrapper">
         <Routes>
-          <Route path="/" element={<Home_an animeData={anime} />} />
+          <Route path="/" element={<HomeAn animeData={anime} />} />
           <Route path="/mylist" element={<Mylist />} />
-          <Route path="/genres" element={<Genre_an animeData={anime} />} />
+          <Route path="/genres" element={<GenreAn animeData={anime} />} />
           <Route path="/pop" element={<Popular2 animeData={anime} />} />
           <Route path="/ar" element={<Airing animeData={anime} />} />
           <Route path="/up" element={<Upcoming animeData={anime} />} />
-          <Route path="/plusinfo/:id" element={<Ani_info />} />
+          <Route path="/plusinfo/:id" element={<AniInfo />} />
         </Routes>
       </div>
       <ScrollToTopBtn />

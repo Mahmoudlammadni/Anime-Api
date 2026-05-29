@@ -7,7 +7,8 @@ const reduu =(state=initialstate,action)=>{
             if (!state.mylist.includes(action.payload)) {
                  return {...state,mylist:[...state.mylist,action.payload]}
             }
-            case 'add2':
+            break;
+        case 'add2':
                return {...state,plus_info:[action.payload]}
 
             case 'remove':

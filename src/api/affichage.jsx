@@ -1,4 +1,4 @@
-import { Link, Links } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { add2 } from './action';
 import { add } from './action';

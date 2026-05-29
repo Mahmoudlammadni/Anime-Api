@@ -1,10 +1,8 @@
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import "./style2.css"
 
 
 export default function Ani_info() {
-    const {id}=useParams()
     const info = useSelector(data=>data.plus_info)
     console.log(info)
     

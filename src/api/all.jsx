@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
 
 import './style.css';
-import Aff_anime from './affichage';
+import AffAnime from './affichage';
 
 export default function Home_an(props) {
     const [filters, setFilters] = useState({
@@ -116,7 +116,7 @@ export default function Home_an(props) {
             ) : (
                 <div className="anime-grid">
                     {filteredList.map((anime) => (
-                        <Aff_anime anime={anime} key={anime.mal_id} />
+                        <AffAnime anime={anime} key={anime.mal_id} />
                     ))}
                 </div>
             )}

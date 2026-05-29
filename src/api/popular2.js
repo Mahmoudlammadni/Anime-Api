@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FiAlertCircle, FiInbox } from "react-icons/fi";
-import Aff_anime from "./affichage";
+import AffAnime from "./affichage";
 
 export default function Popular2() {
   const [anime, setanime] = useState([]);
@@ -74,7 +74,7 @@ export default function Popular2() {
       ) : (
         <div className="anime-grid">
           {filtered.map((p) => (
-            <Aff_anime anime={p} key={p.mal_id} />
+            <AffAnime anime={p} key={p.mal_id} />
           ))}
         </div>
       )}
