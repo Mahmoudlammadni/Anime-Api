@@ -9,3 +9,9 @@ export const add2=(anime)=>{
     }
 
 }
+export const remove=(anime)=>{
+    return{
+        type:'remove',payload:anime
+    }
+
+}

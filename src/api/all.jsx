@@ -1,7 +1,6 @@
-
- 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FiSearch } from 'react-icons/fi';
 
 import './style.css';
 import Aff_anime from './affichage';
@@ -15,11 +14,7 @@ export default function Home_an(props) {
         search: '',
     });
 
-
-    
-      
-      
-      const handleFilterChange = (e) => {
+    const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setFilters(prev => ({ ...prev, [name]: value }));
     };
@@ -33,13 +28,23 @@ export default function Home_an(props) {
         );
     });
 
+    const filteredList = filteredAnime.filter(
+        (o) => o.rating !== "R - 17+ (violence & profanity)" && o.rating !== "R+ - Mild Nudity"
+    );
+
     return (
         <div className="anime-app">
-            <h1 className="title">Anime Search</h1>
-            <Link to={'/pop'}>  <button className='popular'>Popular</button></Link>
-            <Link to={'/ar'}>  <button className='ar'>Airing</button></Link>
-            <Link to={'/up'}>  <button className='up'>Upcoming</button></Link>
-          
+            <div className="hero-section">
+                <h1 className="hero-title">Discover Anime</h1>
+                <p className="hero-subtitle">Search, explore, and save your favorite anime</p>
+            </div>
+
+            <div className="category-nav">
+                <Link to={'/pop'}><button className='popular'>Popular</button></Link>
+                <Link to={'/ar'}><button className='ar'>Airing</button></Link>
+                <Link to={'/up'}><button className='up'>Upcoming</button></Link>
+            </div>
+
             <div className="filter-container">
                 <input
                     type="text"
@@ -89,17 +94,32 @@ export default function Home_an(props) {
                     </label>
                 </div>
             </div>
-<div></div>
-            <div className="anime-grid">
-                {filteredAnime.filter((o)=>o.rating!=="R - 17+ (violence & profanity)"&& o.rating!=="R+ - Mild Nudity"
-          ).map((anime) => (
-                    <Aff_anime anime={anime} />
-                  
-                ))}
-            </div>
+
+            {props.animeData.length === 0 ? (
+                <div className="loading-grid">
+                    {Array.from({ length: 12 }).map((_, i) => (
+                        <div key={i} className="skeleton-card">
+                            <div className="skeleton skeleton-image" />
+                            <div className="skeleton-text">
+                                <div className="skeleton skeleton-title" />
+                                <div className="skeleton skeleton-subtitle" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : filteredList.length === 0 ? (
+                <div className="empty-state">
+                    <div className="empty-state-icon"><FiSearch /></div>
+                    <h3>No anime found</h3>
+                    <p>Try adjusting your search or filter criteria</p>
+                </div>
+            ) : (
+                <div className="anime-grid">
+                    {filteredList.map((anime) => (
+                        <Aff_anime anime={anime} key={anime.mal_id} />
+                    ))}
+                </div>
+            )}
         </div>
     );
 }
-
-  
- 

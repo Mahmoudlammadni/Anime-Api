@@ -10,8 +10,9 @@ const reduu =(state=initialstate,action)=>{
             case 'add2':
                return {...state,plus_info:[action.payload]}
 
-            
-            
+            case 'remove':
+               return {...state,mylist:state.mylist.filter((item)=>item.mal_id!==action.payload.mal_id)}
+               
         default:
             return state
     }
