@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
 import './style.css';
 
 export default function Genre_an(props) {
+    const navigate = useNavigate()
     const [filters, setFilters] = useState({
         genre: '',
         rating: '',
@@ -104,7 +106,7 @@ export default function Genre_an(props) {
             ) : (
                 <div className="anime-grid">
                     {filteredList.map(anime => (
-                        <div key={anime.mal_id} className="anime-card">
+                        <div key={anime.mal_id} className="anime-card" onClick={() => navigate(`/anime/${anime.mal_id}`)} style={{cursor: 'pointer'}}>
                             <img src={anime.images.jpg.image_url} alt={anime.title} className="anime-image" />
                             <div className="anime-details">
                                 <h3 className="anime-title">{anime.title}</h3>

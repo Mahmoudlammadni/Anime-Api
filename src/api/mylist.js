@@ -1,6 +1,5 @@
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { add2, remove } from "./action";
 import { FiHeart, FiX } from "react-icons/fi";
 import "./style.css"
@@ -8,6 +7,7 @@ import "./style.css"
 export default function Mylist() {
     const my_list = useSelector(data => data.mylist)
     const dis = useDispatch()
+    const navigate = useNavigate()
 
     if (my_list.length === 0) {
         return (
@@ -27,38 +27,44 @@ export default function Mylist() {
             <h1 className="title">My List ({my_list.length})</h1>
             <div className="anime-grid">
                 {
-                    my_list.map((p) => {
-                        return (
-                            <div className="pp" key={p.mal_id} style={{ position: 'relative' }}>
-                                <button
-                                    className="remove-btn"
-                                    onClick={() => dis(remove(p))}
-                                    aria-label="Remove from list"
-                                >
-                                    <FiX />
-                                </button>
-                                <div className="anca">
-                                    <img
-                                        src={p.images.jpg.image_url}
-                                        alt={p.title}
-                                        className="aim"
-                                    />
-                                    <div className="adet">
-                                        <h3 className="at">{p.title}</h3>
-                                        <p className="as">Source: {p.source}</p>
-                                        <p className="asc">Score: {p.score}</p>
-                                        <p className="ae">Episodes: {p.episodes}</p>
-                                        <p className="ae">rating: {p.rating}</p>
+                    my_list.map((p) => (
+                        <div
+                            className="pp"
+                            key={p.mal_id}
+                            style={{ position: 'relative', cursor: 'pointer' }}
+                            onClick={() => navigate(`/anime/${p.mal_id}`)}
+                        >
+                            <button
+                                className="remove-btn"
+                                onClick={(e) => { e.stopPropagation(); dis(remove(p)); }}
+                                aria-label="Remove from list"
+                            >
+                                <FiX />
+                            </button>
+                            <div className="anca">
+                                <img
+                                    src={p.images.jpg.image_url}
+                                    alt={p.title}
+                                    className="aim"
+                                />
+                                <div className="adet">
+                                    <h3 className="at">{p.title}</h3>
+                                    <p className="as">Source: {p.source}</p>
+                                    <p className="asc">Score: {p.score}</p>
+                                    <p className="ae">Episodes: {p.episodes}</p>
+                                    <p className="ae">rating: {p.rating}</p>
 
-                                        <Link to={`/plusinfo/${p.mal_id}`} onClick={() => dis(add2(p))}>
-                                            <button className="btn2">plus d'information</button>
-                                        </Link>
-                                    </div>
-
+                                    <button
+                                        className="btn2"
+                                        onClick={(e) => { e.stopPropagation(); dis(add2(p)); navigate(`/anime/${p.mal_id}`); }}
+                                    >
+                                        plus d'information
+                                    </button>
                                 </div>
+
                             </div>
-                        );
-                    })
+                        </div>
+                    ))
                 }
 
             </div>

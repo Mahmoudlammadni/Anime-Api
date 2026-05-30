@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { add2 } from './action';
 import { add } from './action';
@@ -6,9 +6,11 @@ import { add } from './action';
 import './style.css'
     export default function Aff_anime(props) {
         const dis=useDispatch()
+        const navigate = useNavigate()
+        const id = props.anime.mal_id
         return (
             
-            <div className="pp">
+            <div className="pp" onClick={() => navigate(`/anime/${id}`)} style={{cursor: 'pointer'}}>
             <div className="anca" >
                 <img 
                     src={props.anime.images.jpg.image_url}
@@ -22,18 +24,16 @@ import './style.css'
                     <p className="ae">Episodes: {props.anime.episodes}</p>
                     <p className="ae">rating: {props.anime.rating}</p>
                    
-        
-                    <Link to={`/plusinfo/${props.anime.mal_id}`} onClick={()=>dis(add2(props.anime))}>
-                     < button className="btn2">plus d'information</button></Link>
+                    <button className="btn2" onClick={(e) => { e.stopPropagation(); dis(add2(props.anime)); navigate(`/anime/${id}`); }}>plus d'information</button>
                     </div>
                    
             </div > 
-            <button className="btn" onClick={()=>dis(add(props.anime))} style={{width:"100%",display:"none"}}>click</button>
+            <button className="btn" onClick={(e) => {e.stopPropagation(); dis(add(props.anime));}} style={{width:"100%",display:"none"}}>click</button>
 
              </div>
         );
     }
     
 
+   
 
-  
