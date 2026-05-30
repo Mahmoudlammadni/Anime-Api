@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { FiChevronUp } from "react-icons/fi";
+import { animeService } from "./jikanApi";
 import HomeAn from "./all";
 import AniInfo from "./ani_infor";
 import Nav from "./nav";
@@ -9,6 +10,7 @@ import GenreAn from "./genre";
 import Airing from "./airing";
 import Upcoming from "./upcoming";
 import Popular2 from "./popular2";
+import AnimeDetails from "./AnimeDetails";
 
 function ScrollToTopBtn() {
   const [visible, setVisible] = useState(false);
@@ -39,13 +41,7 @@ export default function Anime() {
   const [page, setpage] = useState(1);
 
   useEffect(() => {
-    fetch(`https://api.jikan.moe/v4/anime?page=${page}`)
-      .then((r) => {
-        if (!r.ok) {
-          throw new Error(`HTTP error! Status: ${r.status}`);
-        }
-        return r.json();
-      })
+    animeService.getList(page)
       .then((d) => {
         if (d.data) {
           setanime((prev) => [...prev, ...d.data]);
@@ -81,6 +77,7 @@ export default function Anime() {
           <Route path="/ar" element={<Airing animeData={anime} />} />
           <Route path="/up" element={<Upcoming animeData={anime} />} />
           <Route path="/plusinfo/:id" element={<AniInfo />} />
+          <Route path="/anime/:id" element={<AnimeDetails />} />
         </Routes>
       </div>
       <ScrollToTopBtn />
