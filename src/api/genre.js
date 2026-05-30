@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
+import { useTheme } from './ThemeContext';
 import './style.css';
 
 export default function Genre_an(props) {
+    const { t } = useTheme();
     const navigate = useNavigate()
     const [filters, setFilters] = useState({
         genre: '',
@@ -33,12 +35,12 @@ export default function Genre_an(props) {
 
     return (
         <div className="anime-app">
-            <h1 className="title">Browse by Genre</h1>
+            <h1 className="title">{t('selectGenre')}</h1>
 
             <div className="filter-container">
                 <input
                     type="text"
-                    placeholder="Search anime..."
+                    placeholder={t('search')}
                     name="search"
                     value={filters.search}
                     onChange={handleFilterChange}
@@ -100,7 +102,7 @@ export default function Genre_an(props) {
             ) : filteredList.length === 0 ? (
                 <div className="empty-state">
                     <div className="empty-state-icon"><FiSearch /></div>
-                    <h3>No anime found</h3>
+                    <h3>{t('noResults')}</h3>
                     <p>Try adjusting your search or filter criteria</p>
                 </div>
             ) : (
@@ -113,8 +115,8 @@ export default function Genre_an(props) {
                                 <p className="anime-genres">
                                     {anime.genres.map(g => g.name).join(', ')}
                                 </p>
-                                <p>Score: {anime.score}</p>
-                                <p>Type: {anime.type}</p>
+                                <p>{t('score')}: {anime.score}</p>
+                                <p>{t('type')}: {anime.type}</p>
                             </div>
                         </div>
                     ))}

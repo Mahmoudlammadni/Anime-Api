@@ -2,20 +2,29 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FiStar, FiClock, FiFilm, FiAlertCircle, FiArrowLeft } from 'react-icons/fi';
 import { animeService } from './jikanApi';
+import { useTheme } from './ThemeContext';
+import { translateText } from './translate';
 import './style.css';
 
 export default function AnimeDetails() {
   const { id } = useParams();
+  const { t, lang } = useTheme();
   const [anime, setAnime] = useState(null);
   const [characters, setCharacters] = useState([]);
   const [staff, setStaff] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [translatedSynopsis, setTranslatedSynopsis] = useState(null);
+  const [translatingSynopsis, setTranslatingSynopsis] = useState(false);
+  const [translatedBg, setTranslatedBg] = useState(null);
+  const [translatingBg, setTranslatingBg] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     setError(null);
+    setTranslatedSynopsis(null);
+    setTranslatedBg(null);
 
     Promise.all([
       animeService.getDetails(id),
@@ -40,6 +49,22 @@ export default function AnimeDetails() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
+
+  const handleTranslateSynopsis = async () => {
+    if (!anime?.synopsis || translatingSynopsis || translatedSynopsis) return;
+    setTranslatingSynopsis(true);
+    const result = await translateText(anime.synopsis, lang);
+    setTranslatedSynopsis(result);
+    setTranslatingSynopsis(false);
+  };
+
+  const handleTranslateBg = async () => {
+    if (!anime?.background || translatingBg || translatedBg) return;
+    setTranslatingBg(true);
+    const result = await translateText(anime.background, lang);
+    setTranslatedBg(result);
+    setTranslatingBg(false);
+  };
 
   if (loading) {
     return (
@@ -69,17 +94,17 @@ export default function AnimeDetails() {
     return (
       <div className="details-page">
         <div className="anime-app">
-          <Link to="/" className="back-link"><FiArrowLeft /> Back to home</Link>
+          <Link to="/" className="back-link"><FiArrowLeft /> {t('backToHome')}</Link>
           <div className="error-state">
             <div className="error-state-icon"><FiAlertCircle /></div>
-            <h3>{isRateLimit ? 'Too many requests' : 'Failed to load anime'}</h3>
+            <h3>{isRateLimit ? t('tooManyRequests') : t('failedToLoad')}</h3>
             <p>
               {isRateLimit
-                ? 'The API is rate-limiting requests. Please wait a moment and try again.'
+                ? t('rateLimitMsg')
                 : error}
             </p>
             <button className="btn" onClick={() => window.location.reload()} style={{ marginTop: 16 }}>
-              Try Again
+              {t('tryAgain')}
             </button>
           </div>
         </div>
@@ -93,7 +118,7 @@ export default function AnimeDetails() {
   const trailer = anime.trailer;
 
   const formatStatus = (status) => {
-    if (!status) return 'Unknown';
+    if (!status) return t('unknown');
     return status.charAt(0).toUpperCase() + status.slice(1).replace(/_/g, ' ');
   };
 
@@ -112,7 +137,7 @@ export default function AnimeDetails() {
       >
         <div className="details-hero-overlay" />
         <div className="details-hero-content">
-          <Link to="/" className="back-link"><FiArrowLeft /> Back</Link>
+          <Link to="/" className="back-link"><FiArrowLeft /> {t('back')}</Link>
           <div className="details-hero-info">
             <h1 className="details-hero-title">{anime.title}</h1>
             {anime.title_japanese && (
@@ -159,12 +184,32 @@ export default function AnimeDetails() {
         <div className="details-body">
           <div className="details-main">
             <section className="details-section">
-              <h2>Synopsis</h2>
-              <p className="details-synopsis">{anime.synopsis || 'No synopsis available.'}</p>
+              <h2>{t('synopsis')}</h2>
+              <p className="details-synopsis">{translatedSynopsis || anime.synopsis || t('noSynopsis')}</p>
+              {translatedSynopsis && (
+                <button className="trans-btn" onClick={() => setTranslatedSynopsis(null)}>
+                  {t('original')}
+                </button>
+              )}
+              {!translatedSynopsis && anime.synopsis && lang !== 'en' && (
+                <button className="trans-btn" onClick={handleTranslateSynopsis} disabled={translatingSynopsis}>
+                  {translatingSynopsis ? '...' : t('translate')}
+                </button>
+              )}
               {anime.background && (
                 <>
-                  <h3>Background</h3>
-                  <p className="details-background">{anime.background}</p>
+                  <h3>{t('background')}</h3>
+                  <p className="details-background">{translatedBg || anime.background}</p>
+                  {translatedBg && (
+                    <button className="trans-btn" onClick={() => setTranslatedBg(null)}>
+                      {t('original')}
+                    </button>
+                  )}
+                  {!translatedBg && lang !== 'en' && (
+                    <button className="trans-btn" onClick={handleTranslateBg} disabled={translatingBg}>
+                      {translatingBg ? '...' : t('translate')}
+                    </button>
+                  )}
                 </>
               )}
             </section>
@@ -172,31 +217,31 @@ export default function AnimeDetails() {
             <div className="details-info-grid">
               {anime.rating && (
                 <div className="info-item">
-                  <strong>Rating</strong>
+                  <strong>{t('rating')}</strong>
                   <span>{anime.rating}</span>
                 </div>
               )}
               {anime.source && (
                 <div className="info-item">
-                  <strong>Source</strong>
+                  <strong>{t('source')}</strong>
                   <span>{anime.source}</span>
                 </div>
               )}
               {anime.duration && (
                 <div className="info-item">
-                  <strong>Duration</strong>
+                  <strong>{t('duration')}</strong>
                   <span>{anime.duration}</span>
                 </div>
               )}
               {(anime.studios?.length > 0) && (
                 <div className="info-item">
-                  <strong>Studios</strong>
+                  <strong>{t('studios')}</strong>
                   <span>{anime.studios.map((s) => s.name).join(', ')}</span>
                 </div>
               )}
               {(anime.themes?.length > 0 || anime.demographics?.length > 0) && (
                 <div className="info-item">
-                  <strong>Themes</strong>
+                  <strong>{t('themes')}</strong>
                   <span>
                     {[...(anime.themes || []), ...(anime.demographics || [])]
                       .map((t) => t.name)
@@ -208,7 +253,7 @@ export default function AnimeDetails() {
 
             {trailer?.embed_url && (
               <section className="details-section">
-                <h2>Trailer</h2>
+                <h2>{t('trailer')}</h2>
                 <div className="trailer-wrapper">
                   <iframe
                     src={trailer.embed_url}
@@ -222,7 +267,7 @@ export default function AnimeDetails() {
 
             {characters.length > 0 && (
               <section className="details-section">
-                <h2>Characters ({characters.length})</h2>
+                <h2>{t('characters')} ({characters.length})</h2>
                 <div className="characters-scroll">
                   {characters.map((char) => (
                     <div key={char.character.mal_id} className="character-card">
@@ -243,7 +288,7 @@ export default function AnimeDetails() {
 
             {staff.length > 0 && (
               <section className="details-section">
-                <h2>Staff ({staff.length})</h2>
+                <h2>{t('staff')} ({staff.length})</h2>
                 <div className="staff-grid">
                   {staff.slice(0, 20).map((person, i) => (
                     <div key={`${person.person.mal_id}-${i}`} className="staff-card">
@@ -266,7 +311,7 @@ export default function AnimeDetails() {
 
             {recommendations.length > 0 && (
               <section className="details-section">
-                <h2>You May Also Like</h2>
+                <h2>{t('youMayAlsoLike')}</h2>
                 <div className="recommendations-scroll">
                   {recommendations.map((rec) => {
                     const entry = rec.entry;

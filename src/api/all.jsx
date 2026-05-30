@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
+import { useTheme } from './ThemeContext';
 
 import './style.css';
 import AffAnime from './affichage';
 
 export default function Home_an(props) {
+    const { t } = useTheme();
     const [filters, setFilters] = useState({
         genre: '',
         rating: '',
@@ -35,20 +37,20 @@ export default function Home_an(props) {
     return (
         <div className="anime-app">
             <div className="hero-section">
-                <h1 className="hero-title">Discover Anime</h1>
+                <h1 className="hero-title">{t('discover')}</h1>
                 <p className="hero-subtitle">Search, explore, and save your favorite anime</p>
             </div>
 
             <div className="category-nav">
-                <Link to={'/pop'}><button className='popular'>Popular</button></Link>
-                <Link to={'/ar'}><button className='ar'>Airing</button></Link>
-                <Link to={'/up'}><button className='up'>Upcoming</button></Link>
+                <Link to={'/pop'}><button className='popular'>{t('popular')}</button></Link>
+                <Link to={'/ar'}><button className='ar'>{t('airing')}</button></Link>
+                <Link to={'/up'}><button className='up'>{t('upcoming')}</button></Link>
             </div>
 
             <div className="filter-container">
                 <input
                     type="text"
-                    placeholder="Search anime..."
+                    placeholder={t('search')}
                     name="search"
                     value={filters.search}
                     onChange={handleFilterChange}
@@ -110,7 +112,7 @@ export default function Home_an(props) {
             ) : filteredList.length === 0 ? (
                 <div className="empty-state">
                     <div className="empty-state-icon"><FiSearch /></div>
-                    <h3>No anime found</h3>
+                    <h3>{t('noResults')}</h3>
                     <p>Try adjusting your search or filter criteria</p>
                 </div>
             ) : (

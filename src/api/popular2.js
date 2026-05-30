@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { FiAlertCircle, FiInbox } from "react-icons/fi";
 import { animeService } from "./jikanApi";
+import { useTheme } from './ThemeContext';
 import AffAnime from "./affichage";
 
 export default function Popular2() {
+  const { t } = useTheme();
   const [anime, setanime] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,7 +26,7 @@ export default function Popular2() {
   if (loading) {
     return (
       <div className="anime-app">
-        <h1 className="title">Most Popular</h1>
+        <h1 className="title">{t('popularNow')}</h1>
         <div className="loading-grid">
           {Array.from({ length: 12 }).map((_, i) => (
             <div key={i} className="skeleton-card">
@@ -43,10 +45,10 @@ export default function Popular2() {
   if (error) {
     return (
       <div className="anime-app">
-        <h1 className="title">Most Popular</h1>
+        <h1 className="title">{t('popularNow')}</h1>
         <div className="error-state">
           <div className="error-state-icon"><FiAlertCircle /></div>
-          <h3>Failed to load</h3>
+          <h3>{t('failedToLoad')}</h3>
           <p>{error}</p>
         </div>
       </div>
@@ -64,11 +66,11 @@ export default function Popular2() {
 
   return (
     <div className="anime-app">
-      <h1 className="title">Most Popular</h1>
+      <h1 className="title">{t('popularNow')}</h1>
       {filtered.length === 0 ? (
         <div className="empty-state">
           <div className="empty-state-icon"><FiInbox /></div>
-          <h3>No popular anime found</h3>
+          <h3>{t('noResults')}</h3>
           <p>Try again later</p>
         </div>
       ) : (

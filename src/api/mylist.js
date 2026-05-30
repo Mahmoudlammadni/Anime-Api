@@ -1,10 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { add2, remove } from "./action";
+import { useTheme } from './ThemeContext';
 import { FiHeart, FiX } from "react-icons/fi";
 import "./style.css"
 
 export default function Mylist() {
+    const { t } = useTheme();
     const my_list = useSelector(data => data.mylist)
     const dis = useDispatch()
     const navigate = useNavigate()
@@ -12,10 +14,10 @@ export default function Mylist() {
     if (my_list.length === 0) {
         return (
             <div className="anime-app">
-                <h1 className="title">My List</h1>
+                <h1 className="title">{t('myList')}</h1>
                 <div className="empty-state">
                     <div className="empty-state-icon"><FiHeart /></div>
-                    <h3>Your list is empty</h3>
+                    <h3>{t('emptyList')}</h3>
                     <p>Click the "Add to List" button on any anime to save it here</p>
                 </div>
             </div>
@@ -24,7 +26,7 @@ export default function Mylist() {
 
     return (
         <div className="anime-app">
-            <h1 className="title">My List ({my_list.length})</h1>
+            <h1 className="title">{t('myList')} ({my_list.length})</h1>
             <div className="anime-grid">
                 {
                     my_list.map((p) => (
@@ -49,16 +51,16 @@ export default function Mylist() {
                                 />
                                 <div className="adet">
                                     <h3 className="at">{p.title}</h3>
-                                    <p className="as">Source: {p.source}</p>
-                                    <p className="asc">Score: {p.score}</p>
-                                    <p className="ae">Episodes: {p.episodes}</p>
-                                    <p className="ae">rating: {p.rating}</p>
+                                    <p className="as">{t('source')}: {p.source}</p>
+                                    <p className="asc">{t('score')}: {p.score}</p>
+                                    <p className="ae">{t('episodes')}: {p.episodes}</p>
+                                    <p className="ae">{t('rating')}: {p.rating}</p>
 
                                     <button
                                         className="btn2"
                                         onClick={(e) => { e.stopPropagation(); dis(add2(p)); navigate(`/anime/${p.mal_id}`); }}
                                     >
-                                        plus d'information
+                                        {t('moreInfo')}
                                     </button>
                                 </div>
 
