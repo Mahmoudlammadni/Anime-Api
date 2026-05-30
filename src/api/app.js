@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { FiChevronUp } from "react-icons/fi";
 import { animeService } from "./jikanApi";
+import { ThemeProvider } from "./ThemeContext";
 import HomeAn from "./all";
 import AniInfo from "./ani_infor";
 import Nav from "./nav";
@@ -66,21 +67,23 @@ export default function Anime() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Nav />
-      <div className="page-wrapper">
-        <Routes>
-          <Route path="/" element={<HomeAn animeData={anime} />} />
-          <Route path="/mylist" element={<Mylist />} />
-          <Route path="/genres" element={<GenreAn animeData={anime} />} />
-          <Route path="/pop" element={<Popular2 animeData={anime} />} />
-          <Route path="/ar" element={<Airing animeData={anime} />} />
-          <Route path="/up" element={<Upcoming animeData={anime} />} />
-          <Route path="/plusinfo/:id" element={<AniInfo />} />
-          <Route path="/anime/:id" element={<AnimeDetails />} />
-        </Routes>
-      </div>
-      <ScrollToTopBtn />
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <Nav />
+        <div className="page-wrapper">
+          <Routes>
+            <Route path="/" element={<HomeAn animeData={anime} />} />
+            <Route path="/mylist" element={<Mylist />} />
+            <Route path="/genres" element={<GenreAn animeData={anime} />} />
+            <Route path="/pop" element={<Popular2 animeData={anime} />} />
+            <Route path="/ar" element={<Airing animeData={anime} />} />
+            <Route path="/up" element={<Upcoming animeData={anime} />} />
+            <Route path="/plusinfo/:id" element={<AniInfo />} />
+            <Route path="/anime/:id" element={<AnimeDetails />} />
+          </Routes>
+        </div>
+        <ScrollToTopBtn />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }

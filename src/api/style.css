@@ -28,6 +28,40 @@
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+[data-theme="light"] {
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-alt: #f0f2f5;
+  --bg-nav: rgba(255, 255, 255, 0.92);
+  --bg-input: #e8eaed;
+  --text-primary: #1a1a2e;
+  --text-secondary: #555770;
+  --text-muted: #9ca3af;
+  --accent: #e03a00;
+  --accent-hover: #cc3300;
+  --accent-dim: rgba(224, 58, 0, 0.1);
+  --accent-glow: rgba(224, 58, 0, 0.18);
+  --border-color: #e0e0e0;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .nav {
+  border-bottom-color: #e0e0e0;
+}
+
+[data-theme="light"] .search-bar {
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme="light"] .search-bar::placeholder {
+  color: var(--text-muted);
+}
+
 body {
   font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   background-color: var(--bg-secondary);
@@ -1504,6 +1538,105 @@ button {
   .anime-title {
     font-size: 0.85rem;
   }
+}
+
+/* ===== THEME TOGGLE & LANGUAGE PICKER ===== */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.lang-select {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  outline: none;
+}
+
+.lang-select:hover,
+.lang-select:focus {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.lang-select option {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===== RTL SUPPORT ===== */
+[dir="rtl"] .nav-center a::after {
+  left: auto;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+[dir="rtl"] .details-hero-content {
+  text-align: right;
+}
+
+[dir="rtl"] .back-link svg {
+  margin-right: 0;
+  margin-left: 6px;
+}
+
+[dir="rtl"] .hero-search-wrapper {
+  direction: rtl;
+}
+
+[dir="rtl"] .filter-container {
+  direction: rtl;
+}
+
+[dir="rtl"] .meta-badge svg {
+  margin-right: 0;
+  margin-left: 4px;
+}
+
+/* ===== TRANSLATE BUTTON ON CARDS ===== */
+.trans-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 4px;
+}
+
+.trans-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
 }
 
 /* ===== SMOOTH TRANSITIONS GLOBAL ===== */
