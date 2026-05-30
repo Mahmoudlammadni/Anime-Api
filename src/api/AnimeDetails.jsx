@@ -65,14 +65,22 @@ export default function AnimeDetails() {
   }
 
   if (error) {
+    const isRateLimit = error.includes('429');
     return (
       <div className="details-page">
         <div className="anime-app">
           <Link to="/" className="back-link"><FiArrowLeft /> Back to home</Link>
           <div className="error-state">
             <div className="error-state-icon"><FiAlertCircle /></div>
-            <h3>Failed to load anime</h3>
-            <p>{error}</p>
+            <h3>{isRateLimit ? 'Too many requests' : 'Failed to load anime'}</h3>
+            <p>
+              {isRateLimit
+                ? 'The API is rate-limiting requests. Please wait a moment and try again.'
+                : error}
+            </p>
+            <button className="btn" onClick={() => window.location.reload()} style={{ marginTop: 16 }}>
+              Try Again
+            </button>
           </div>
         </div>
       </div>
