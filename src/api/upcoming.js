@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { FiAlertCircle, FiInbox } from "react-icons/fi";
+import { animeService } from "./jikanApi";
 import AffAnime from "./affichage";
 
 export default function Upcoming() {
@@ -9,8 +10,7 @@ export default function Upcoming() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`https://api.jikan.moe/v4/top/anime?filter=upcoming`)
-      .then((d) => d.json())
+    animeService.getTop('upcoming')
       .then((d) => {
         setanime(d.data || []);
         setLoading(false);

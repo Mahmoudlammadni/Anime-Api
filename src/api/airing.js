@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { FiAlertCircle, FiInbox } from "react-icons/fi";
+import { animeService } from "./jikanApi";
 import AffAnime from "./affichage";
 
 export default function Airing() {
@@ -9,8 +10,7 @@ export default function Airing() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`https://api.jikan.moe/v4/top/anime?filter=airing`)
-      .then((d) => d.json())
+    animeService.getTop('airing')
       .then((d) => {
         setanime(d.data || []);
         setLoading(false);
