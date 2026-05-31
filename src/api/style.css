@@ -1564,31 +1564,33 @@ button {
   background: var(--accent-dim);
 }
 
-.lang-select {
-  background: none;
+.lang-group {
+  display: flex;
   border: 1px solid var(--border-color);
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  padding: 6px 8px;
   border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  padding: 6px 8px;
   cursor: pointer;
   transition: var(--transition);
-  outline: none;
   line-height: 1.4;
-  height: 36px;
-  align-self: center;
-  box-sizing: border-box;
+  font-weight: 500;
 }
 
-.lang-select:hover,
-.lang-select:focus {
-  border-color: var(--accent);
+.lang-btn:hover {
   color: var(--text-primary);
+  background: var(--accent-dim);
 }
 
-.lang-select option {
-  background: var(--bg-primary);
-  color: var(--text-primary);
+.lang-btn.active {
+  color: var(--accent);
+  background: var(--accent-dim);
 }
 
 .nav-right {

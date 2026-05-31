@@ -27,16 +27,11 @@ export default function Nav() {
                 <Link to="/mylist" onClick={() => setMenuOpen(false)}>{t('myList')}</Link>
             </div>
             <div className="nav-right">
-                <select
-                    className="lang-select"
-                    value={lang}
-                    onChange={(e) => setLang(e.target.value)}
-                    aria-label={t('langLabel')}
-                >
-                    <option value="en">EN</option>
-                    <option value="fr">FR</option>
-                    <option value="ar">AR</option>
-                </select>
+                <div className="lang-group">
+                    <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
+                    <button className={`lang-btn${lang === 'fr' ? ' active' : ''}`} onClick={() => setLang('fr')}>FR</button>
+                    <button className={`lang-btn${lang === 'ar' ? ' active' : ''}`} onClick={() => setLang('ar')}>AR</button>
+                </div>
                 <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
                     {theme === 'dark' ? <FiSun /> : <FiMoon />}
                     {theme === 'dark' ? t('light') : t('dark')}
