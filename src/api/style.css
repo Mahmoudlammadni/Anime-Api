@@ -208,12 +208,6 @@ body::before {
   align-items: center;
 }
 
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
 .search-bar {
   padding: 5px 10px;
   border: 1px solid gray;
@@ -279,6 +273,13 @@ body::before {
 
   .nav-center a::after {
     display: none;
+  }
+
+  .nav-right {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    padding-top: 8px;
   }
 }
 
@@ -1554,6 +1555,7 @@ button {
   align-items: center;
   gap: 6px;
   white-space: nowrap;
+  line-height: 1.4;
 }
 
 .theme-toggle:hover {
@@ -1572,6 +1574,10 @@ button {
   cursor: pointer;
   transition: var(--transition);
   outline: none;
+  line-height: 1.4;
+  height: 36px;
+  align-self: center;
+  box-sizing: border-box;
 }
 
 .lang-select:hover,
