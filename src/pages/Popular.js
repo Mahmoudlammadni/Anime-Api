@@ -55,19 +55,12 @@ export default function Popular() {
     );
   }
 
-  const filtered = anime.filter(
-    (o) =>
-      o.rating &&
-      o.rating !== "R - 17+ (violence & profanity)" &&
-      o.rating !== "R+ - Mild Nudity" &&
-      o.rating !== "Rx - Hentai" &&
-      o.rating !== "OVA"
-  );
+  
 
   return (
     <div className="anime-app">
       <h1 className="title">{t('popularNow')}</h1>
-      {filtered.length === 0 ? (
+      {anime.length === 0 ? (
         <div className="empty-state">
           <div className="empty-state-icon"><FiInbox /></div>
           <h3>{t('noResults')}</h3>
@@ -75,7 +68,7 @@ export default function Popular() {
         </div>
       ) : (
         <div className="anime-grid">
-          {filtered.map((p) => (
+          {anime.map((p) => (
             <AnimeCard anime={p} key={p.mal_id} />
           ))}
         </div>

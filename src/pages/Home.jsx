@@ -29,9 +29,7 @@ export default function Home(props) {
         );
     });
 
-    const filteredList = filteredAnime.filter(
-        (o) => o.rating !== "R - 17+ (violence & profanity)" && o.rating !== "R+ - Mild Nudity"
-    );
+    
 
     return (
         <div className="anime-app">
@@ -108,7 +106,7 @@ export default function Home(props) {
                         </div>
                     ))}
                 </div>
-            ) : filteredList.length === 0 ? (
+            ) : filteredAnime.length === 0 ? (
                 <div className="empty-state">
                     <div className="empty-state-icon"><FiSearch /></div>
                     <h3>{t('noResults')}</h3>
@@ -116,7 +114,7 @@ export default function Home(props) {
                 </div>
             ) : (
                 <div className="anime-grid">
-                    {filteredList.map((anime) => (
+                    {filteredAnime.map((anime) => (
                         <AnimeCard anime={anime} key={anime.mal_id} />
                     ))}
                 </div>
