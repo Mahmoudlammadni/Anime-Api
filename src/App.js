@@ -10,6 +10,7 @@ import Genre from "./pages/Genre";
 import Airing from "./pages/Airing";
 import Upcoming from "./pages/Upcoming";
 import Popular from "./pages/Popular";
+import Latest from "./pages/Latest";
 import AnimeDetails from "./pages/AnimeDetails";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -54,6 +55,7 @@ export default function Anime() {
             <Route path="/pop" element={<Popular animeData={anime} />} />
             <Route path="/ar" element={<Airing animeData={anime} />} />
             <Route path="/up" element={<Upcoming animeData={anime} />} />
+            <Route path="/latest" element={<Latest />} />
             <Route path="/plusinfo/:id" element={<AniInfo />} />
             <Route path="/anime/:id" element={<AnimeDetails />} />
           </Routes>

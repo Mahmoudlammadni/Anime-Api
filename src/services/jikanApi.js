@@ -25,7 +25,7 @@ async function processQueue() {
       lastRequestTime = Date.now();
       const res = await fetch(url);
 
-      if (res.status === 429 && retries > 0) {
+      if ((res.status === 429 || res.status >= 500) && retries > 0) {
         const delay = RETRY_DELAYS[MAX_RETRIES - retries];
         await new Promise((r) => setTimeout(r, delay));
         queue.unshift({ url, resolve, reject, retries: retries - 1 });
@@ -64,7 +64,7 @@ async function apiFetch(url) {
 
   const promise = new Promise((resolve, reject) => {
     queue.push({ url, resolve, reject, retries: MAX_RETRIES });
-    processQueue();
+    processQueue().catch(() => {});
   });
 
   inflight.set(
@@ -87,13 +87,21 @@ export const animeService = {
     return apiFetch(`${BASE_URL}/top/anime?page=${page}${f}`);
   },
 
-  getDetails: (id) => apiFetch(`${BASE_URL}/anime/${id}/full`),
+  getDetails: async (id) => {
+    try {
+      return await apiFetch(`${BASE_URL}/anime/${id}/full`);
+    } catch {
+      return await apiFetch(`${BASE_URL}/anime/${id}`);
+    }
+  },
 
   getCharacters: (id) => apiFetch(`${BASE_URL}/anime/${id}/characters`),
 
   getStaff: (id) => apiFetch(`${BASE_URL}/anime/${id}/staff`),
 
   getRecommendations: (id) => apiFetch(`${BASE_URL}/anime/${id}/recommendations`),
+
+  getEpisodes: (id) => apiFetch(`${BASE_URL}/anime/${id}/episodes`),
 
   getRelations: (id) => apiFetch(`${BASE_URL}/anime/${id}/relations`),
 

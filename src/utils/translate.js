@@ -39,7 +39,7 @@ export async function translateText(text, target) {
   const key = cacheKey(text, target);
   if (cache[key]) return cache[key];
 
-  const maxLen = 2000;
+  const maxLen = 480;
   const chunks = [];
   for (let i = 0; i < text.length; i += maxLen) {
     chunks.push(text.slice(i, i + maxLen));
@@ -57,7 +57,7 @@ export async function translateText(text, target) {
 
 async function translateChunk(text, target) {
   try {
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=auto|${target}`;
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${target}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Translate error: ${res.status}`);
     const data = await res.json();

@@ -33,15 +33,15 @@ export default function AnimeDetails() {
       animeService.getRecommendations(id),
     ])
       .then(([animeRes, charRes, staffRes, recRes]) => {
-        if (!animeRes.data) throw new Error('Anime not found');
+        if (!animeRes?.data) throw new Error('Anime not found');
         setAnime(animeRes.data);
-        setCharacters(charRes.data || []);
-        setStaff(staffRes.data || []);
-        setRecommendations(recRes.data?.slice(0, 12) || []);
+        setCharacters(charRes?.data || []);
+        setStaff(staffRes?.data || []);
+        setRecommendations(recRes?.data?.slice(0, 12) || []);
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message);
+        setError(err.message || 'Failed to load anime details');
         setLoading(false);
       });
   }, [id]);
@@ -50,21 +50,31 @@ export default function AnimeDetails() {
     window.scrollTo(0, 0);
   }, [id]);
 
-  const handleTranslateSynopsis = async () => {
-    if (!anime?.synopsis || translatingSynopsis || translatedSynopsis) return;
+  useEffect(() => {
+    if (!anime?.synopsis || lang === 'en') {
+      setTranslatedSynopsis(null);
+      setTranslatingSynopsis(false);
+      return;
+    }
     setTranslatingSynopsis(true);
-    const result = await translateText(anime.synopsis, lang);
-    setTranslatedSynopsis(result);
-    setTranslatingSynopsis(false);
-  };
+    translateText(anime.synopsis, lang)
+      .then(setTranslatedSynopsis)
+      .catch(() => setTranslatedSynopsis(null))
+      .finally(() => setTranslatingSynopsis(false));
+  }, [lang, anime?.synopsis]);
 
-  const handleTranslateBg = async () => {
-    if (!anime?.background || translatingBg || translatedBg) return;
+  useEffect(() => {
+    if (!anime?.background || lang === 'en') {
+      setTranslatedBg(null);
+      setTranslatingBg(false);
+      return;
+    }
     setTranslatingBg(true);
-    const result = await translateText(anime.background, lang);
-    setTranslatedBg(result);
-    setTranslatingBg(false);
-  };
+    translateText(anime.background, lang)
+      .then(setTranslatedBg)
+      .catch(() => setTranslatedBg(null))
+      .finally(() => setTranslatingBg(false));
+  }, [lang, anime?.background]);
 
   if (loading) {
     return (
@@ -91,6 +101,7 @@ export default function AnimeDetails() {
 
   if (error) {
     const isRateLimit = error.includes('429');
+    const isServerError = error.includes('500');
     return (
       <div className="details-page">
         <div className="anime-app">
@@ -101,7 +112,9 @@ export default function AnimeDetails() {
             <p>
               {isRateLimit
                 ? t('rateLimitMsg')
-                : error}
+                : isServerError
+                  ? t('serverError')
+                  : error}
             </p>
             <button className="btn" onClick={() => window.location.reload()} style={{ marginTop: 16 }}>
               {t('tryAgain')}
@@ -183,31 +196,25 @@ export default function AnimeDetails() {
       <div className="anime-app">
         <div className="details-body">
           <div className="details-main">
-            <section className="details-section">
+              <section className="details-section">
               <h2>{t('synopsis')}</h2>
-              <p className="details-synopsis">{translatedSynopsis || anime.synopsis || t('noSynopsis')}</p>
+              <p className="details-synopsis">
+                {translatingSynopsis ? '...' : (translatedSynopsis || anime.synopsis || t('noSynopsis'))}
+              </p>
               {translatedSynopsis && (
                 <button className="trans-btn" onClick={() => setTranslatedSynopsis(null)}>
                   {t('original')}
                 </button>
               )}
-              {!translatedSynopsis && anime.synopsis && lang !== 'en' && (
-                <button className="trans-btn" onClick={handleTranslateSynopsis} disabled={translatingSynopsis}>
-                  {translatingSynopsis ? '...' : t('translate')}
-                </button>
-              )}
               {anime.background && (
                 <>
                   <h3>{t('background')}</h3>
-                  <p className="details-background">{translatedBg || anime.background}</p>
+                  <p className="details-background">
+                    {translatingBg ? '...' : (translatedBg || anime.background)}
+                  </p>
                   {translatedBg && (
                     <button className="trans-btn" onClick={() => setTranslatedBg(null)}>
                       {t('original')}
-                    </button>
-                  )}
-                  {!translatedBg && lang !== 'en' && (
-                    <button className="trans-btn" onClick={handleTranslateBg} disabled={translatingBg}>
-                      {translatingBg ? '...' : t('translate')}
                     </button>
                   )}
                 </>

@@ -21,8 +21,8 @@ export default function Home(props) {
     };
     const filteredAnime = props.animeData.filter(anime => {
         return (
-            (filters.genre ? anime.genres.some(g => g.name === filters.genre) : true) &&
-            (filters.rating ? anime.rating.includes(filters.rating) : true) &&
+            (filters.genre ? anime.genres?.some(g => g.name === filters.genre) : true) &&
+            (filters.rating ? anime.rating?.includes(filters.rating) : true) &&
             (filters.score ? anime.score >= filters.score : true) &&
             (filters.type ? anime.type === filters.type : true) &&
             (filters.search ? anime.title.toLowerCase().includes(filters.search.toLowerCase()) : true)

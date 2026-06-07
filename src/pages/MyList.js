@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { add2, remove } from "../redux/action";
+import { remove } from "../redux/action";
 import { useTheme } from '../context/ThemeContext';
-import { FiHeart, FiX } from "react-icons/fi";
+import { FiHeart } from "react-icons/fi";
 import "../styles/style.css"
 
 export default function MyList() {
@@ -31,39 +31,27 @@ export default function MyList() {
                 {
                     my_list.map((p) => (
                         <div
-                            className="pp"
+                            className="latest-card"
                             key={p.mal_id}
-                            style={{ position: 'relative', cursor: 'pointer' }}
                             onClick={() => navigate(`/anime/${p.mal_id}`)}
+                            style={{ cursor: 'pointer' }}
                         >
-                            <button
-                                className="remove-btn"
-                                onClick={(e) => { e.stopPropagation(); dis(remove(p)); }}
-                                aria-label="Remove from list"
-                            >
-                                <FiX />
-                            </button>
-                            <div className="anca">
+                            <div className="latest-img-wrap">
                                 <img
-                                    src={p.images.jpg.image_url}
+                                    src={p.images?.jpg?.image_url}
                                     alt={p.title}
-                                    className="aim"
+                                    className="latest-img"
                                 />
-                                <div className="adet">
-                                    <h3 className="at">{p.title}</h3>
-                                    <p className="as">{t('source')}: {p.source}</p>
-                                    <p className="asc">{t('score')}: {p.score}</p>
-                                    <p className="ae">{t('episodes')}: {p.episodes}</p>
-                                    <p className="ae">{t('rating')}: {p.rating}</p>
-
-                                    <button
-                                        className="btn2"
-                                        onClick={(e) => { e.stopPropagation(); dis(add2(p)); navigate(`/anime/${p.mal_id}`); }}
-                                    >
-                                        {t('moreInfo')}
-                                    </button>
-                                </div>
-
+                                <button
+                                    className="latest-fav in-list"
+                                    onClick={(e) => { e.stopPropagation(); dis(remove(p)); }}
+                                    title={t('remove')}
+                                >
+                                    <FiHeart />
+                                </button>
+                            </div>
+                            <div className="latest-info">
+                                <h3 className="latest-title">{p.title}</h3>
                             </div>
                         </div>
                     ))

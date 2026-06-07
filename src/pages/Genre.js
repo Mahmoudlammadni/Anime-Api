@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiSearch } from 'react-icons/fi';
+import { useDispatch, useSelector } from 'react-redux';
+import { add, remove } from '../redux/action';
+import { FiSearch, FiHeart } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
 import '../styles/style.css';
 
 export default function Genre(props) {
     const { t } = useTheme();
     const navigate = useNavigate()
+    const dis = useDispatch()
+    const myList = useSelector((data) => data.mylist)
     const [filters, setFilters] = useState({
         genre: '',
         rating: '',
@@ -19,13 +23,13 @@ export default function Genre(props) {
         const { name, value } = e.target;
         setFilters(prev => ({ ...prev, [name]: value }));
     };
-    const filteredAnime = props.animeData.filter(anime => {
+        const filteredAnime = props.animeData.filter(anime => {
         return (
-            (filters.genre ? anime.genres.some(g => g.name === filters.genre) : true) &&
-            (filters.rating ? anime.rating.includes(filters.rating) : true) &&
+            (filters.genre ? anime.genres?.some(g => g.name === filters.genre) : true) &&
+            (filters.rating ? anime.rating?.includes(filters.rating) : true) &&
             (filters.score ? anime.score >= filters.score : true) &&
             (filters.type ? anime.type === filters.type : true) &&
-            (filters.search ? anime.title.toLowerCase().includes(filters.search.toLowerCase()) : true)
+            (filters.search ? anime.title?.toLowerCase().includes(filters.search?.toLowerCase()) : true)
         );
     });
 
@@ -107,19 +111,33 @@ export default function Genre(props) {
                 </div>
             ) : (
                 <div className="anime-grid">
-                    {filteredList.map(anime => (
-                        <div key={anime.mal_id} className="anime-card" onClick={() => navigate(`/anime/${anime.mal_id}`)} style={{cursor: 'pointer'}}>
-                            <img src={anime.images.jpg.image_url} alt={anime.title} className="anime-image" />
-                            <div className="anime-details">
-                                <h3 className="anime-title">{anime.title}</h3>
-                                <p className="anime-genres">
-                                    {anime.genres.map(g => g.name).join(', ')}
-                                </p>
-                                <p>{t('score')}: {anime.score}</p>
-                                <p>{t('type')}: {anime.type}</p>
+                    {filteredList.map(anime => {
+                        const inList = myList.some((item) => item.mal_id === anime.mal_id);
+                        return (
+                            <div key={anime.mal_id} className="latest-card" onClick={() => navigate(`/anime/${anime.mal_id}`)} style={{cursor: 'pointer'}}>
+                                <div className="latest-img-wrap">
+                                    <img src={anime.images?.jpg?.image_url} alt={anime.title} className="latest-img" />
+                                    <button
+                                        className={`latest-fav${inList ? ' in-list' : ''}`}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (inList) {
+                                                dis(remove(anime));
+                                            } else {
+                                                dis(add(anime));
+                                            }
+                                        }}
+                                        title={inList ? t('inList') : t('addToList')}
+                                    >
+                                        <FiHeart />
+                                    </button>
+                                </div>
+                                <div className="latest-info">
+                                    <h3 className="latest-title">{anime.title}</h3>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
         </div>

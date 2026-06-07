@@ -27,7 +27,7 @@ export default function Nav() {
                 <Link to="/mylist" onClick={() => setMenuOpen(false)}>{t('myList')}</Link>
             </div>
             <div className="nav-right">
-                <div className="select-wrap">
+                <span className="select-wrap">
                     <select
                         className="lang-select"
                         value={lang}
@@ -38,7 +38,7 @@ export default function Nav() {
                         <option value="fr">FR</option>
                         <option value="ar">AR</option>
                     </select>
-                </div>
+                </span>
                 <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
                     {theme === 'dark' ? <FiSun /> : <FiMoon />}
                     {theme === 'dark' ? t('light') : t('dark')}
