@@ -1,41 +1,17 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { FiChevronUp } from "react-icons/fi";
-import { animeService } from "./jikanApi";
-import { ThemeProvider } from "./ThemeContext";
-import HomeAn from "./all";
-import AniInfo from "./ani_infor";
-import Nav from "./nav";
-import Mylist from "./mylist";
-import GenreAn from "./genre";
-import Airing from "./airing";
-import Upcoming from "./upcoming";
-import Popular2 from "./popular2";
-import AnimeDetails from "./AnimeDetails";
-
-function ScrollToTopBtn() {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const toggle = () => setVisible(window.scrollY > 400);
-    window.addEventListener("scroll", toggle, { passive: true });
-    return () => window.removeEventListener("scroll", toggle);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  return (
-    <button
-      className={`scroll-to-top${visible ? " visible" : ""}`}
-      onClick={scrollToTop}
-      aria-label="Scroll to top"
-    >
-      <FiChevronUp />
-    </button>
-  );
-}
+import { animeService } from "./services/jikanApi";
+import { ThemeProvider } from "./context/ThemeContext";
+import Home from "./pages/Home";
+import AniInfo from "./pages/AniInfo";
+import Nav from "./components/Nav";
+import MyList from "./pages/MyList";
+import Genre from "./pages/Genre";
+import Airing from "./pages/Airing";
+import Upcoming from "./pages/Upcoming";
+import Popular from "./pages/Popular";
+import AnimeDetails from "./pages/AnimeDetails";
+import ScrollToTop from "./components/ScrollToTop";
 
 export default function Anime() {
   const [anime, setanime] = useState([]);
@@ -72,17 +48,17 @@ export default function Anime() {
         <Nav />
         <div className="page-wrapper">
           <Routes>
-            <Route path="/" element={<HomeAn animeData={anime} />} />
-            <Route path="/mylist" element={<Mylist />} />
-            <Route path="/genres" element={<GenreAn animeData={anime} />} />
-            <Route path="/pop" element={<Popular2 animeData={anime} />} />
+            <Route path="/" element={<Home animeData={anime} />} />
+            <Route path="/mylist" element={<MyList />} />
+            <Route path="/genres" element={<Genre animeData={anime} />} />
+            <Route path="/pop" element={<Popular animeData={anime} />} />
             <Route path="/ar" element={<Airing animeData={anime} />} />
             <Route path="/up" element={<Upcoming animeData={anime} />} />
             <Route path="/plusinfo/:id" element={<AniInfo />} />
             <Route path="/anime/:id" element={<AnimeDetails />} />
           </Routes>
         </div>
-        <ScrollToTopBtn />
+        <ScrollToTop />
       </BrowserRouter>
     </ThemeProvider>
   );

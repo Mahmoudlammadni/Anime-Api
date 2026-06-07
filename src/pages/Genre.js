@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../context/ThemeContext';
+import '../styles/style.css';
 
-import './style.css';
-import AffAnime from './affichage';
-
-export default function Home_an(props) {
+export default function Genre(props) {
     const { t } = useTheme();
+    const navigate = useNavigate()
     const [filters, setFilters] = useState({
         genre: '',
         rating: '',
@@ -36,16 +35,7 @@ export default function Home_an(props) {
 
     return (
         <div className="anime-app">
-            <div className="hero-section">
-                <h1 className="hero-title">{t('discover')}</h1>
-                <p className="hero-subtitle">Search, explore, and save your favorite anime</p>
-            </div>
-
-            <div className="category-nav">
-                <Link to={'/pop'}><button className='popular'>{t('popular')}</button></Link>
-                <Link to={'/ar'}><button className='ar'>{t('airing')}</button></Link>
-                <Link to={'/up'}><button className='up'>{t('upcoming')}</button></Link>
-            </div>
+            <h1 className="title">{t('selectGenre')}</h1>
 
             <div className="filter-container">
                 <input
@@ -117,8 +107,18 @@ export default function Home_an(props) {
                 </div>
             ) : (
                 <div className="anime-grid">
-                    {filteredList.map((anime) => (
-                        <AffAnime anime={anime} key={anime.mal_id} />
+                    {filteredList.map(anime => (
+                        <div key={anime.mal_id} className="anime-card" onClick={() => navigate(`/anime/${anime.mal_id}`)} style={{cursor: 'pointer'}}>
+                            <img src={anime.images.jpg.image_url} alt={anime.title} className="anime-image" />
+                            <div className="anime-details">
+                                <h3 className="anime-title">{anime.title}</h3>
+                                <p className="anime-genres">
+                                    {anime.genres.map(g => g.name).join(', ')}
+                                </p>
+                                <p>{t('score')}: {anime.score}</p>
+                                <p>{t('type')}: {anime.type}</p>
+                            </div>
+                        </div>
                     ))}
                 </div>
             )}

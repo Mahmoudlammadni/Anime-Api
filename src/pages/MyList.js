@@ -1,11 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { add2, remove } from "./action";
-import { useTheme } from './ThemeContext';
+import { add2, remove } from "../redux/action";
+import { useTheme } from '../context/ThemeContext';
 import { FiHeart, FiX } from "react-icons/fi";
-import "./style.css"
+import "../styles/style.css"
 
-export default function Mylist() {
+export default function MyList() {
     const { t } = useTheme();
     const my_list = useSelector(data => data.mylist)
     const dis = useDispatch()

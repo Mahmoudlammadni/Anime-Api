@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { FiAlertCircle, FiInbox } from "react-icons/fi";
-import { animeService } from "./jikanApi";
-import { useTheme } from './ThemeContext';
-import AffAnime from "./affichage";
+import { animeService } from "../services/jikanApi";
+import { useTheme } from '../context/ThemeContext';
+import AnimeCard from "../components/AnimeCard";
 
-export default function Upcoming() {
+export default function Airing() {
   const { t } = useTheme();
   const [anime, setanime] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ export default function Upcoming() {
 
   useEffect(() => {
     setLoading(true);
-    animeService.getTop('upcoming')
+    animeService.getTop('airing')
       .then((d) => {
         setanime(d.data || []);
         setLoading(false);
@@ -26,7 +26,7 @@ export default function Upcoming() {
   if (loading) {
     return (
       <div className="anime-app">
-        <h1 className="title">{t('upcoming')}</h1>
+        <h1 className="title">{t('airingNow')}</h1>
         <div className="loading-grid">
           {Array.from({ length: 12 }).map((_, i) => (
             <div key={i} className="skeleton-card">
@@ -45,7 +45,7 @@ export default function Upcoming() {
   if (error) {
     return (
       <div className="anime-app">
-        <h1 className="title">{t('upcoming')}</h1>
+        <h1 className="title">{t('airingNow')}</h1>
         <div className="error-state">
           <div className="error-state-icon"><FiAlertCircle /></div>
           <h3>{t('failedToLoad')}</h3>
@@ -66,17 +66,17 @@ export default function Upcoming() {
 
   return (
     <div className="anime-app">
-      <h1 className="title">{t('upcoming')}</h1>
+      <h1 className="title">{t('airingNow')}</h1>
       {filtered.length === 0 ? (
         <div className="empty-state">
           <div className="empty-state-icon"><FiInbox /></div>
-          <h3>{t('noResults')}</h3>
-          <p>Check back later for new announcements</p>
+          <h3>{t('noAired')}</h3>
+          <p>Check back later for new releases</p>
         </div>
       ) : (
         <div className="anime-grid">
           {filtered.map((p) => (
-            <AffAnime anime={p} key={p.mal_id} />
+            <AnimeCard anime={p} key={p.mal_id} />
           ))}
         </div>
       )}

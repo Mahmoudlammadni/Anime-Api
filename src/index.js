@@ -1,14 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import Anime from "./api/app"
-
-
-
+import Anime from "./App"
 import { legacy_createStore } from 'redux';
 import { Provider } from 'react-redux';
-import reduu from './api/redux'
+import reduu from './redux/reducer'
 
 const store =legacy_createStore(reduu)
 const root = ReactDOM.createRoot(document.getElementById('root'));

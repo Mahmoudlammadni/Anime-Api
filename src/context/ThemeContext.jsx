@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import translations from './i18n';
+import translations from '../utils/i18n';
 
 const ThemeContext = createContext(null);
 

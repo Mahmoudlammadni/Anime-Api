@@ -1,19 +1,21 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { add2 } from './action';
-import { add } from './action';
-import { useTheme } from './ThemeContext';
-import { translateText } from './translate';
-import './style.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { add, add2 } from '../redux/action';
+import { useTheme } from '../context/ThemeContext';
+import { translateText } from '../utils/translate';
+import { FiHeart } from 'react-icons/fi';
+import '../styles/style.css'
 
-export default function Aff_anime(props) {
+export default function AnimeCard(props) {
     const dis = useDispatch()
     const navigate = useNavigate()
     const { t, lang } = useTheme()
+    const myList = useSelector((data) => data.mylist)
     const id = props.anime.mal_id
     const [translatedTitle, setTranslatedTitle] = useState(null)
     const [translating, setTranslating] = useState(false)
+    const isInList = myList.some((item) => item.mal_id === id)
 
     const handleTranslate = async (e) => {
         e.stopPropagation()
@@ -22,6 +24,13 @@ export default function Aff_anime(props) {
         const result = await translateText(props.anime.title, lang)
         setTranslatedTitle(result)
         setTranslating(false)
+    }
+
+    const handleAddToList = (e) => {
+        e.stopPropagation()
+        if (!isInList) {
+            dis(add(props.anime))
+        }
     }
 
     return (
@@ -49,12 +58,21 @@ export default function Aff_anime(props) {
                     <p className="ae">{t('episodes')}: {props.anime.episodes}</p>
                     <p className="ae">{t('rating')}: {props.anime.rating}</p>
 
-                    <button className="btn2" onClick={(e) => { e.stopPropagation(); dis(add2(props.anime)); navigate(`/anime/${id}`); }}>{t('moreInfo')}</button>
+                    <div className="card-actions">
+                        <button
+                            className={`fav-btn${isInList ? ' in-list' : ''}`}
+                            onClick={handleAddToList}
+                            title={isInList ? 'In your list' : 'Add to list'}
+                        >
+                            <FiHeart />
+                            {isInList ? t('inList') || 'In List' : t('addToList') || 'Add to List'}
+                        </button>
+                        <button className="btn2" onClick={(e) => { e.stopPropagation(); dis(add2(props.anime)); navigate(`/anime/${id}`); }}>
+                            {t('moreInfo')}
+                        </button>
+                    </div>
                 </div>
-
             </div>
-            <button className="btn" onClick={(e) => { e.stopPropagation(); dis(add(props.anime)); }} style={{ width: "100%", display: "none" }}>click</button>
-
         </div>
     );
 }

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
-import { useTheme } from "./ThemeContext";
-import './style.css';
+import { useTheme } from "../context/ThemeContext";
+import '../styles/style.css';
 
 export default function Nav() {
     const [menuOpen, setMenuOpen] = useState(false);

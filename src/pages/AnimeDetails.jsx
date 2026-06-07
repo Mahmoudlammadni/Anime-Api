@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FiStar, FiClock, FiFilm, FiAlertCircle, FiArrowLeft } from 'react-icons/fi';
-import { animeService } from './jikanApi';
-import { useTheme } from './ThemeContext';
-import { translateText } from './translate';
-import './style.css';
+import { animeService } from '../services/jikanApi';
+import { useTheme } from '../context/ThemeContext';
+import { translateText } from '../utils/translate';
+import '../styles/style.css';
 
 export default function AnimeDetails() {
   const { id } = useParams();

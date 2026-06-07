@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
-import { useTheme } from './ThemeContext';
-import './style.css';
+import { useTheme } from '../context/ThemeContext';
+import AnimeCard from '../components/AnimeCard';
+import '../styles/style.css';
 
-export default function Genre_an(props) {
+export default function Home(props) {
     const { t } = useTheme();
-    const navigate = useNavigate()
     const [filters, setFilters] = useState({
         genre: '',
         rating: '',
@@ -35,7 +35,16 @@ export default function Genre_an(props) {
 
     return (
         <div className="anime-app">
-            <h1 className="title">{t('selectGenre')}</h1>
+            <div className="hero-section">
+                <h1 className="hero-title">{t('discover')}</h1>
+                <p className="hero-subtitle">Search, explore, and save your favorite anime</p>
+            </div>
+
+            <div className="category-nav">
+                <Link to={'/pop'}><button className='popular'>{t('popular')}</button></Link>
+                <Link to={'/ar'}><button className='ar'>{t('airing')}</button></Link>
+                <Link to={'/up'}><button className='up'>{t('upcoming')}</button></Link>
+            </div>
 
             <div className="filter-container">
                 <input
@@ -107,18 +116,8 @@ export default function Genre_an(props) {
                 </div>
             ) : (
                 <div className="anime-grid">
-                    {filteredList.map(anime => (
-                        <div key={anime.mal_id} className="anime-card" onClick={() => navigate(`/anime/${anime.mal_id}`)} style={{cursor: 'pointer'}}>
-                            <img src={anime.images.jpg.image_url} alt={anime.title} className="anime-image" />
-                            <div className="anime-details">
-                                <h3 className="anime-title">{anime.title}</h3>
-                                <p className="anime-genres">
-                                    {anime.genres.map(g => g.name).join(', ')}
-                                </p>
-                                <p>{t('score')}: {anime.score}</p>
-                                <p>{t('type')}: {anime.type}</p>
-                            </div>
-                        </div>
+                    {filteredList.map((anime) => (
+                        <AnimeCard anime={anime} key={anime.mal_id} />
                     ))}
                 </div>
             )}
