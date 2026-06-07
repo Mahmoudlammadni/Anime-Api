@@ -1542,12 +1542,21 @@ button {
 }
 
 /* ===== THEME TOGGLE & LANGUAGE PICKER ===== */
-.lang-select,
-.theme-toggle {
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-toggle,
+.lang-select {
   height: 34px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 12px;
+  vertical-align: middle;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
-  box-sizing: border-box;
   background: none;
   color: var(--text-secondary);
   font-size: 0.9rem;
@@ -1562,7 +1571,6 @@ button {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 0 12px;
   white-space: nowrap;
   line-height: 1;
 }
@@ -1571,20 +1579,16 @@ button {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding: 0 28px 0 10px;
-  line-height: 32px;
+  display: block;
+  line-height: normal;
+  padding-right: 32px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23b0b0b0'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 10px center;
+  background-position: right 12px center;
   background-size: 10px;
 }
 
-.theme-toggle:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: var(--accent-dim);
-}
-
+.theme-toggle:hover,
 .lang-select:hover {
   color: var(--accent);
   border-color: var(--accent);
@@ -1594,12 +1598,6 @@ button {
 .lang-select option {
   background: var(--bg-primary);
   color: var(--text-primary);
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 /* ===== RTL SUPPORT ===== */
