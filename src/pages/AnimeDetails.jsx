@@ -17,8 +17,10 @@ export default function AnimeDetails() {
   const [error, setError] = useState(null);
   const [translatedSynopsis, setTranslatedSynopsis] = useState(null);
   const [translatingSynopsis, setTranslatingSynopsis] = useState(false);
+  const [synopsisError, setSynopsisError] = useState(false);
   const [translatedBg, setTranslatedBg] = useState(null);
   const [translatingBg, setTranslatingBg] = useState(false);
+  const [bgError, setBgError] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -47,19 +49,24 @@ export default function AnimeDetails() {
   }, [id]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [id]);
-
-  useEffect(() => {
     if (!anime?.synopsis || lang === 'en') {
       setTranslatedSynopsis(null);
       setTranslatingSynopsis(false);
+      setSynopsisError(false);
       return;
     }
     setTranslatingSynopsis(true);
+    setSynopsisError(false);
     translateText(anime.synopsis, lang)
-      .then(setTranslatedSynopsis)
-      .catch(() => setTranslatedSynopsis(null))
+      .then((result) => {
+        if (result === anime.synopsis) {
+          setSynopsisError(true);
+          setTranslatedSynopsis(null);
+        } else {
+          setTranslatedSynopsis(result);
+        }
+      })
+      .catch(() => { setSynopsisError(true); setTranslatedSynopsis(null); })
       .finally(() => setTranslatingSynopsis(false));
   }, [lang, anime?.synopsis]);
 
@@ -67,12 +74,21 @@ export default function AnimeDetails() {
     if (!anime?.background || lang === 'en') {
       setTranslatedBg(null);
       setTranslatingBg(false);
+      setBgError(false);
       return;
     }
     setTranslatingBg(true);
+    setBgError(false);
     translateText(anime.background, lang)
-      .then(setTranslatedBg)
-      .catch(() => setTranslatedBg(null))
+      .then((result) => {
+        if (result === anime.background) {
+          setBgError(true);
+          setTranslatedBg(null);
+        } else {
+          setTranslatedBg(result);
+        }
+      })
+      .catch(() => { setBgError(true); setTranslatedBg(null); })
       .finally(() => setTranslatingBg(false));
   }, [lang, anime?.background]);
 
@@ -199,8 +215,13 @@ export default function AnimeDetails() {
               <section className="details-section">
               <h2>{t('synopsis')}</h2>
               <p className="details-synopsis">
-                {translatingSynopsis ? '...' : (translatedSynopsis || anime.synopsis || t('noSynopsis'))}
+                {translatingSynopsis ? (
+                  <span className="translating-pulse">{t('translating')}</span>
+                ) : (translatedSynopsis || anime.synopsis || t('noSynopsis'))}
               </p>
+              {synopsisError && !translatingSynopsis && lang !== 'en' && (
+                <p className="trans-error">{t('translationError')}</p>
+              )}
               {translatedSynopsis && (
                 <button className="trans-btn" onClick={() => setTranslatedSynopsis(null)}>
                   {t('original')}
@@ -210,8 +231,13 @@ export default function AnimeDetails() {
                 <>
                   <h3>{t('background')}</h3>
                   <p className="details-background">
-                    {translatingBg ? '...' : (translatedBg || anime.background)}
+                    {translatingBg ? (
+                      <span className="translating-pulse">{t('translating')}</span>
+                    ) : (translatedBg || anime.background)}
                   </p>
+                  {bgError && !translatingBg && lang !== 'en' && (
+                    <p className="trans-error">{t('translationError')}</p>
+                  )}
                   {translatedBg && (
                     <button className="trans-btn" onClick={() => setTranslatedBg(null)}>
                       {t('original')}
@@ -327,7 +353,6 @@ export default function AnimeDetails() {
                         to={`/anime/${entry.mal_id}`}
                         key={entry.mal_id}
                         className="rec-card"
-                        onClick={() => window.scrollTo(0, 0)}
                       >
                         <img
                           src={entry.images?.jpg?.image_url}
