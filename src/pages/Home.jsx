@@ -35,7 +35,7 @@ export default function Home(props) {
         <div className="anime-app">
             <div className="hero-section">
                 <h1 className="hero-title">{t('discover')}</h1>
-                <p className="hero-subtitle">Search, explore, and save your favorite anime</p>
+                <p className="hero-subtitle">{t('heroSubtitle')}</p>
             </div>
 
             <div className="category-nav">
@@ -56,9 +56,9 @@ export default function Home(props) {
 
                 <div className="filters">
                     <label>
-                        Genre:
+                        {t('genreLabel')}
                         <select name="genre" onChange={handleFilterChange}>
-                            <option value="">All</option>
+                            <option value="">{t('all')}</option>
                             <option value="Action">Action</option>
                             <option value="Adventure">Adventure</option>
                             <option value="Drama">Drama</option>
@@ -66,27 +66,27 @@ export default function Home(props) {
                     </label>
 
                     <label>
-                        Rating:
+                        {t('ratingLabel')}
                         <select name="rating" onChange={handleFilterChange}>
-                            <option value="">All</option>
+                            <option value="">{t('all')}</option>
                             <option value="PG-13">PG-13</option>
                             <option value="R - 17+">R - 17+</option>
                         </select>
                     </label>
 
                     <label>
-                        Score:
+                        {t('scoreLabel')}
                         <select name="score" onChange={handleFilterChange}>
-                            <option value="">All</option>
+                            <option value="">{t('all')}</option>
                             <option value="8">8+</option>
                             <option value="9">9+</option>
                         </select>
                     </label>
 
                     <label>
-                        Type:
+                        {t('typeLabel')}
                         <select name="type" onChange={handleFilterChange}>
-                            <option value="">All</option>
+                            <option value="">{t('all')}</option>
                             <option value="TV">TV</option>
                             <option value="Movie">Movie</option>
                         </select>
@@ -110,7 +110,7 @@ export default function Home(props) {
                 <div className="empty-state">
                     <div className="empty-state-icon"><FiSearch /></div>
                     <h3>{t('noResults')}</h3>
-                    <p>Try adjusting your search or filter criteria</p>
+                    <p>{t('tryAdjusting')}</p>
                 </div>
             ) : (
                 <div className="anime-grid">
