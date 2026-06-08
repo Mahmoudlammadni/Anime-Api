@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { animeService } from "./services/jikanApi";
 import { ThemeProvider } from "./context/ThemeContext";
 import Home from "./pages/Home";
@@ -12,7 +12,14 @@ import Upcoming from "./pages/Upcoming";
 import Popular from "./pages/Popular";
 import Latest from "./pages/Latest";
 import AnimeDetails from "./pages/AnimeDetails";
+import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+
+function ScrollToTopOnNav() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
 
 export default function Anime() {
   const [anime, setanime] = useState([]);
@@ -48,6 +55,7 @@ export default function Anime() {
       <BrowserRouter>
         <Nav />
         <div className="page-wrapper">
+          <ScrollToTopOnNav />
           <Routes>
             <Route path="/" element={<Home animeData={anime} />} />
             <Route path="/mylist" element={<MyList />} />
@@ -58,6 +66,7 @@ export default function Anime() {
             <Route path="/latest" element={<Latest />} />
             <Route path="/plusinfo/:id" element={<AniInfo />} />
             <Route path="/anime/:id" element={<AnimeDetails />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
         <ScrollToTop />
