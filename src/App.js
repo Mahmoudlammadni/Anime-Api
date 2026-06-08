@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { animeService } from "./services/jikanApi";
 import { ThemeProvider } from "./context/ThemeContext";
 import Home from "./pages/Home";
@@ -14,12 +14,7 @@ import Latest from "./pages/Latest";
 import AnimeDetails from "./pages/AnimeDetails";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
-
-function ScrollToTopOnNav() {
-  const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
-  return null;
-}
+import ScrollToTopOnNav from "./components/ScrollToTopOnNav";
 
 export default function Anime() {
   const [anime, setanime] = useState([]);
